@@ -1,0 +1,15 @@
+{
+    "posts": [
+        {
+            "id": 1, "title": "1111", "author": "test"
+        }
+    ],
+    "comments": [
+        {
+            "id": 1, "body": "11111-comment", "postId": 1
+        }
+    ],
+    "profile": {
+        "name": "typeO"
+    }
+}

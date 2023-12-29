@@ -1,0 +1,10 @@
+.ant-layout-sider {
+    height: 100vh;
+}
+
+.demo-logo-vertical {
+    line-height: 40px;
+    color: white;
+    font-size: 20px;
+    text-align: center;
+}

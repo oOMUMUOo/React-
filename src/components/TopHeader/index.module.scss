@@ -1,0 +1,13 @@
+.userInfo {
+    width: 40px;
+    height: 40px;
+    background-color: aqua;
+}
+
+.userBox {
+    float: right;
+    margin-right: 16px;
+    .userTitle {
+        margin-right: 16px;
+    }
+}
