@@ -6,12 +6,12 @@ export default function Home() {
 
   const getData = () => {
     // 查
-    // axios.get('http://localhost:9000/posts').then(res => {
+    // axios.get('/posts').then(res => {
     //   console.log(res.data)
     // })
 
     // 增
-    // axios.post('http://localhost:9000/posts', {
+    // axios.post('/posts', {
     //   title:'444',
     //   author: '4444'
     // }).then(res => {
@@ -19,32 +19,32 @@ export default function Home() {
     // })
 
     // 更新 put
-    // axios.put('http://localhost:9000/posts/1', {
+    // axios.put('/posts/1', {
     //   title: 'yiyioyi7yuiuiyiuyuiyui9',
     // })
     // 会替换原来的对象，author属性就直接没了
 
     // 更新 patch
-    // axios.patch('http://localhost:9000/posts/1', {
+    // axios.patch('/posts/1', {
     //   title: "1111修改"
     // })
     // 只修改你传递的属性值，其余不变
 
     // 删
-    // axios.delete('http://localhost:9000/posts/1')
+    // axios.delete('/posts/1')
 
     // _embed  向下关联， ID与comments中postId相同的关联上
-    // axios.get('http://localhost:9000/posts?_embed=comments').then((res) => {
+    // axios.get('/posts?_embed=comments').then((res) => {
     //   console.log(res.data)
     // })
 
     // _expand 
-    axios.get('http://localhost:9000/comments?_expand=post').then(res => {
+    axios.get('/comments?_expand=post').then(res => {
       // console.log(res.data)
     })
   }
   return (
-    <div>Home
+    <div>
         <Button type='primary' onClick={getData}>按钮</Button>
     </div>
   )

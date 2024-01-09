@@ -62,12 +62,12 @@ export default function RightManageRight() {
           setData(data.filter(ele => {
             return ele.id !== item.id
           }))
-          axios.delete(`http://localhost:9000/rights/${item.id}`)
+          axios.delete(`/rights/${item.id}`)
         } else if (item.grade === 2) {
           let list = data.filter(ele => ele.id === item.rightId)
           list[0].children = list[0].children.filter(data => data.id !== item.id)
           setData([...data])
-          axios.delete(`http://localhost:9000/children/${item.id}`)
+          axios.delete(`/children/${item.id}`)
         }
       },
       footer: (_, { OkBtn, CancelBtn }) => (
@@ -83,18 +83,18 @@ export default function RightManageRight() {
     item.pagepermission = item.pagepermission === 1 ? 0: 1
     setData([...data])
     if(item.grade === 1) {
-      axios.patch(`http://localhost:9000/rights/${item.id}`, {
+      axios.patch(`/rights/${item.id}`, {
         pagepermission: item.pagepermission
       })
     } else {
-      axios.patch(`http://localhost:9000/children/${item.id}`, {
+      axios.patch(`/children/${item.id}`, {
         pagepermission: item.pagepermission
       })
     }
   }
 
   useEffect(() => {
-    axios.get('http://localhost:9000/rights?_embed=children').then((res) => {
+    axios.get('/rights?_embed=children').then((res) => {
       const list = res.data
       list.map((item) => {
         return item.children.length == 0 ? item.children = "" : item.children

@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import {withRouter} from 'react-router-dom'
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
@@ -9,24 +10,35 @@ import style from './index.module.scss'
 
 const { Header } = Layout;
 
-const items = [
-  {
-    key: '1',
-    label: '详细信息'
-  },
-  {
-    key: '2',
-    label: '退出',
-    danger: true,
-  },
-];
+
 
 const onClick = ({ key }) => {
   // console.log(`Click on item ${key}`);
 };
 
-export default function TopHeader() {
+function TopHeader(props) {
   const [collapsed, setCollapsed] = useState(false);
+  const {username, role: {roleName}} = JSON.parse(localStorage.getItem("username"))
+
+  const items = [
+    {
+      key: '1',
+      label: (
+        <span>{roleName}</span>
+      )
+    },
+    {
+      key: '2',
+      label: (
+        <span onClick={()=> {
+          console.log(props)
+          localStorage.removeItem('username')
+          props.history.replace('/login')
+        }}>退出</span>
+      ),
+      danger: true,
+    },
+  ];
   
   return (
     <div>
@@ -43,7 +55,7 @@ export default function TopHeader() {
         />
 
         <div className={style.userBox}>
-          <span className={style.userTitle}>欢迎admin回来</span>
+          <span className={style.userTitle}>欢迎<span className={style.username}>{username}</span>回来</span>
           <Dropdown
             menu={{
               items,
@@ -57,3 +69,4 @@ export default function TopHeader() {
     </div>
   )
 }
+export default withRouter(TopHeader)

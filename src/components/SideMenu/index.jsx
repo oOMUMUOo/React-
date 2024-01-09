@@ -57,14 +57,15 @@ function menuItemChange(props, item) {
 function SideMenu(props) {
 
   const [menuItems, setMenuItems] = React.useState([]);
+  const {role: {rights}} = JSON.parse(localStorage.getItem('username'))
 
   useEffect(() => {
-    axios.get('http://localhost:9000/rights?_embed=children').then((res) => {
+    axios.get('/rights?_embed=children').then((res) => {
       // console.log(res.data, '-------res')
       const data = res.data.map(item => {
-        if (item.pagepermission === 1) {
+        if (item.pagepermission === 1 && rights.includes(item.key)) {
           return getItem(item.title, item.key, IconArrays[item.key], item.children?.length > 0 ? item.children?.map(ele => {
-            if (ele.pagepermission === 1) {
+            if (ele.pagepermission === 1 && rights.includes(ele.key)) {
               return getItem(ele.title, ele.key, IconArrays[ele.key]);
             }
           }) : undefined, item.type)

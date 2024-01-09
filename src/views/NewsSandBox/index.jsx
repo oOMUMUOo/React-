@@ -1,19 +1,23 @@
 import React, { useState } from 'react';
-import { Route, Switch, Redirect } from 'react-router-dom'
 import SideMenu from '../../components/SideMenu'
 import TopHeader from '../../components/TopHeader'
-import Home from '../../pages/Home'
-import User from '../../pages/User'
-import NoPermission from '../../pages/NoPermission'
-import RightManageRole from '../../pages/RightManage/RoleList/index.jsx';
-import RightManageRight from '../../pages/RightManage/RightList/index.jsx'
+import NewRouter from '../../router/NewRouter.js'
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
 import { Layout, theme } from 'antd';
+import { useEffect } from 'react';
 const { Content } = Layout;
+
+
 const App = () => {
   const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
+  NProgress.start();
+  useEffect(()=> {
+    NProgress.done()
+  })
   return (
     <Layout>
       <SideMenu></SideMenu>
@@ -29,14 +33,7 @@ const App = () => {
             overflow: "auto"
           }}
         >
-        <Switch>
-            <Route path="/home" component={Home}></Route>
-            <Route path="/user-manage/list" component={User}></Route>
-            <Route path="/right-manage/right/list" component={RightManageRight}></Route>
-            <Route path="/right-manage/role/list" component={RightManageRole}></Route>
-            <Redirect from='/' to="home" exact />
-            {/* <Route path="*" component={NoPermission}></Route> */}
-        </Switch>
+        <NewRouter></NewRouter>
         </Content>
       </Layout>
     </Layout>

@@ -8,6 +8,7 @@ export default function RightManageRole() {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [treeData, setTreeData] = useState([])
   const [defaultCheck, setDefaultCheck] = useState([])
+  const [checkId, setCheckId] = useState(0)
 
   const colorList = {
     '超级管理员': "red",
@@ -46,7 +47,7 @@ export default function RightManageRole() {
               checkable
               checkedKeys={defaultCheck}
               onCheck={onCheck}
-              checkStrictly
+              checkStrictly={true}
               treeData={treeData}
             />
           </Modal>
@@ -69,7 +70,7 @@ export default function RightManageRole() {
         setDataSource(dataSource.filter(ele => {
           return ele.id != item.id
         }))
-        axios.delete(`http://localhost:9000/roles/${item.id}`).then(res => {
+        axios.delete(`/roles/${item.id}`).then(res => {
           if (res.status === 200) {
             message.success('删除成功!', 1)
           }
@@ -87,10 +88,29 @@ export default function RightManageRole() {
   const showModal = (item) => {
     setIsModalOpen(true)
     setDefaultCheck(item.rights)
+    setCheckId(item.id)
   }
 
   const handleOk = () => {
-
+    setIsModalOpen(false)
+    setDataSource(dataSource.map(item => {
+      if(item.id === checkId) {
+        return {
+          ...item,
+          rights: defaultCheck,
+        }
+      }
+      return item
+    }))
+    axios.patch(`/roles/${checkId}`, {
+      rights: defaultCheck
+    }).then(res => {
+      if(res.status === 200) {
+        message.success('修改成功！')
+      } else {
+        message.error("修改失败！")
+      }
+    })
   }
 
   const handleCancel = () => {
@@ -98,16 +118,15 @@ export default function RightManageRole() {
   }
 
   const onCheck = (checkedKeys) => {
-    console.log(checkedKeys)
-    setDefaultCheck(checkedKeys)
+    setDefaultCheck(checkedKeys.checked)
   }
 
   useEffect(() => {
-    axios.get('http://localhost:9000/roles').then(res => {
+    axios.get('/roles').then(res => {
       setDataSource(res.data)
     })
 
-    axios.get('http://localhost:9000/rights?_embed=children').then(res => {
+    axios.get('/rights?_embed=children').then(res => {
       setTreeData(res.data)
     })
   }, [])
